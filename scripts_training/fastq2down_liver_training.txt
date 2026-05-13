@@ -1,11 +1,15 @@
-D22_con_Liver2_1.fastq.gz
+# Fetch samples of raw data in FASTQ via direct download from the links in OneDrive
+
+# D22_con_Liver2_1.fastq.gz
 https://justedujo-my.sharepoint.com/:u:/g/personal/mbvlab_just_edu_jo/IQA_1owA2_71T5NqyaUwwXBgAfwl1kAxU3jLUScEw-gc28U?e=Up1Mja 
 
-D22_con_Liver2_2.fastq.gz
+# D22_con_Liver2_2.fastq.gz
 https://justedujo-my.sharepoint.com/:u:/g/personal/mbvlab_just_edu_jo/IQC635a0_QgXQK8o4tiwimBNAVtJDUQGvHXhn8G5ZqpusaM?e=xXxkv7
 
-D22_tm_Liver1_1.fastq.gz
+# D22_tm_Liver1_1.fastq.gz
 https://justedujo-my.sharepoint.com/:u:/g/personal/mbvlab_just_edu_jo/IQDGwTrwBFzhQ51JDEhvswu9AfDscPzGDStsdNPmAJ2hjjg?e=nJkh3y 
 
-D22_tm_Liver1_2.fastq.gz
+# D22_tm_Liver1_2.fastq.gz
 https://justedujo-my.sharepoint.com/:u:/g/personal/mbvlab_just_edu_jo/IQC4H9Nm5OaoRp2V6vCAssw0AdLgqedEohbG4a7FHDDHDRo?e=EAMTLm
+
+# you can also use wget
