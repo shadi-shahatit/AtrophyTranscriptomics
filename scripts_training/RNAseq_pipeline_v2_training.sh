@@ -30,7 +30,10 @@ source activate salmon
 
 ## Directories setup
 
-mkdir -p raw_fastq fastqc_reports trimmed_fastq quant_r115
+mkdir transcriptomics_training
+cd transcriptomics_training
+
+mkdir -p raw_fastq fastqc_reports trimmed_fastq quant_r115 Ggallus_Refs/cdna_r115
 
 # RUN samples one by one instead of using a loop
 
@@ -39,6 +42,7 @@ mkdir -p raw_fastq fastqc_reports trimmed_fastq quant_r115
 cd raw_fastq
 
 # Fetch the files for raw data fastq files from the links in fastq2down_liver_training.txt in https://github.com/shadi-shahatit/AtrophyTranscriptomics/tree/main/scripts_training
+# then move them from your download into raw_fastq dir
 
 # sample names
 # 1st run (1 sample; 2 files)
@@ -53,7 +57,8 @@ ls -lah
 
 # Check the integrity of fastq files after download with md5sum
 # note to install md5sum, use conda: https://anaconda.org/channels/conda-forge/packages/cms-md5/overview
-# note to download md5sum code file, use checksums_liver_training.txt in https://github.com/shadi-shahatit/AtrophyTranscriptomics/tree/main/scripts_training
+# download md5sum code file, use checksums_liver_training.txt in https://github.com/shadi-shahatit/AtrophyTranscriptomics/tree/main/scripts_training
+# them move the checksums_liver_training.txt file to raw_fastq so that it is in the same dir as your raw samples
 
 md5sum -c checksums_liver_training.txt
 
@@ -74,13 +79,14 @@ echo "FastQC finished running!"
 ## Step 2: Run Trimmomatic
 #################################
 
+# Fetch the adapters seq file for trimming in adapters_truseq_v2.fa from https://github.com/shadi-shahatit/AtrophyTranscriptomics/blob/main/scripts_training/adapters_truseq_v2.fa
 # make sure to fix the path of the adapters_truseq_v2.fa
 
 trimmomatic PE -threads 8 -phred33 \
             raw_fastq/D22_con_Liver2_1.fastq.gz raw_fastq/D22_con_Liver2_2.fastq.gz \
             trimmed_fastq/D22_con_Liver2_trim_1.fastq.gz trimmed_fastq/D22_con_Liver2_trim_1.fastq.gz_unpair_1.fastq.gz \
             trimmed_fastq/D22_con_Liver2_trim_2.fastq.gz trimmed_fastq/D22_con_Liver2_trim_2.fastq.gz_unpair_2.fastq.gz \
-            ILLUMINACLIP:adapters_truseq_v2.fa:2:30:10:5:true \
+            ILLUMINACLIP:raw_fastq/adapters_truseq_v2.fa:2:30:10:5:true \
             LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
 
 echo "Trimmomatic finished running!"
@@ -103,12 +109,15 @@ echo "FastQC finished running!"
 #################################
 
 # Download the ref files from Ensembl - most recent release (115)
-# wget https://ftp.ensembl.org/pub/release-115/fasta/gallus_gallus/cdna/Gallus_gallus.bGalGal1.mat.broiler.GRCg7b.cdna.all.fa.gz 	# ref trans - cdna fa release 115
 
-index_dir_r155="/TMBroilers_Transcriptomics/Ggallus_Refs/cdna_r115"
-ref_trans_r155="/TMBroilers_Transcriptomics/Ggallus_Refs/cdna_r115/Gallus_gallus.bGalGal1.mat.broiler.GRCg7b.cdna.all.fa.gz"
+cd Ggallus_Refs/cdna_r115/
 
-salmon index -t $ref_trans_r155 -i $index_dir_r155
+wget https://ftp.ensembl.org/pub/release-115/fasta/gallus_gallus/cdna/Gallus_gallus.bGalGal1.mat.broiler.GRCg7b.cdna.all.fa.gz 	# ref trans - cdna fa release 115
+
+cd ../
+cd ../
+
+salmon index -t Ggallus_Refs/cdna_r115/Gallus_gallus.bGalGal1.mat.broiler.GRCg7b.cdna.all.fa.gz -i Ggallus_Refs/cdna_r115
 
 echo "Indexing finished running!"
 
@@ -118,7 +127,7 @@ echo "Indexing finished running!"
 ## Step 5: Salmon Quantification
 #################################
 
-salmon quant -i $index_dir_r155 -l A \
+salmon quant -i Ggallus_Refs/cdna_r115 -l A \
         -1 trimmed_fastq/D22_con_Liver2_trim_1.fastq.gz \
         -2 trimmed_fastq/D22_con_Liver2_trim_2.fastq.gz \
         -p 8 --validateMappings \
@@ -184,6 +193,10 @@ echo "Trimmomatic finished running!"
 fastqc "${trim_dir}"/*_trim_*.fastq.gz -o "$fastqc_dir"
 
 echo "FastQC finished running!"
+
+## Step 4: Reference Transcriptome Indexing 
+
+salmon index -t $ref_trans_r155 -i $index_dir_r155
 
 ## Step 5: Salmon Quantification
 
