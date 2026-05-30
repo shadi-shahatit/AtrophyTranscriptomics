@@ -55,7 +55,7 @@ ls -lah
 # note to install md5sum, use conda: https://anaconda.org/channels/conda-forge/packages/cms-md5/overview
 # note to download md5sum code file, use checksums_liver_training.txt in https://github.com/shadi-shahatit/AtrophyTranscriptomics/tree/main/scripts_training
 
-md5sum -c checksums_liver.txt
+md5sum -c checksums_liver_training.txt
 
 cd ../
 
