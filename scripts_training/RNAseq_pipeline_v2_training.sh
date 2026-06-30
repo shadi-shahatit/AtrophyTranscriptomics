@@ -131,8 +131,10 @@ salmon quant -i Ggallus_Refs/cdna_r115 -l A \
         -1 trimmed_fastq/D22_con_Liver2_trim_1.fastq.gz \
         -2 trimmed_fastq/D22_con_Liver2_trim_2.fastq.gz \
         -p 8 --validateMappings \
+        --seqBias \
+        --gcBias \
         -o quant_r115/D22_con_Liver2_quant
-
+        
 echo "Salmon finished running!"
 
 # duration = 121 minutes and 8 seconds
@@ -207,6 +209,8 @@ for fn in ${trim_dir}/*_trim_1.fastq.gz; do
         -1 "${trim_dir}/${samp}_trim_1.fastq.gz" \
         -2 "${trim_dir}/${samp}_trim_2.fastq.gz" \
         -p 8 --validateMappings \
+        --seqBias \
+        --gcBias \
         -o "${quant_dir_r155}/${samp}_quant"
     echo "Finished quantification for ${samp}"
 done
