@@ -108,6 +108,8 @@ echo "FastQC finished running!"
 ## Step 4: Reference Transcriptome Indexing 
 #################################
 
+## gallus gallus
+
 # Download the ref files from Ensembl - most recent release (115)
 
 cd Ggallus_Refs/cdna_r115/
@@ -122,6 +124,12 @@ salmon index -t Ggallus_Refs/cdna_r115/Gallus_gallus.bGalGal1.mat.broiler.GRCg7b
 echo "Indexing finished running!"
 
 # duration = 
+
+## For mus_musculus, consider this and make sure to change the associated names and dir
+
+# Download the ref files from Ensembl - most recent release (116)
+
+# wget https://ftp.ensembl.org/pub/release-116/fasta/mus_musculus/cdna/Mus_musculus.GRCm39.cdna.all.fa.gz    # ref trans - cdna fa release 116
 
 #################################
 ## Step 5: Salmon Quantification
